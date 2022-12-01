@@ -47,7 +47,7 @@ jobs:
     - name: Add & Commit
       if: ${{github.event_name != 'pull_request'}}
       run: |
-          touch tempoveride
+          touch tempoveride.ovr
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
@@ -65,7 +65,7 @@ jobs:
       
     - name: delete temp file & commit
       run: |
-        git rm tempoveride
+        git rm tempoveride.ovr
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
