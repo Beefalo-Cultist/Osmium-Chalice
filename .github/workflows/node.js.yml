@@ -39,10 +39,11 @@ jobs:
       
     - run: npm ci
     - run: npm run build --if-present
+    - run: npm install -g installed-check
     - name: install packages 
       run: |
           npm install express
-          
+      if:  installed-check   
       #put other package instalations here ^
       
     - name: Add & Commit
