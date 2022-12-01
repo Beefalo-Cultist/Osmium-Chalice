@@ -47,11 +47,6 @@ jobs:
     - name: install express
       run: npm install express
       
-    - name: Express AutoDocs
-      uses: prafulla-codes/express-autodocs@v0.0.2
-      
-      
-      
     - name: Add & Commit
       run: |
           git config user.name github-actions
