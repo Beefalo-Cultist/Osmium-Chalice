@@ -46,7 +46,7 @@ jobs:
       #put other package instalations here ^
       
     - name: Add & Commit
-      if: ${{github.ref != github.path}}
+      if: failure()
       run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
