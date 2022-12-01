@@ -41,9 +41,9 @@ jobs:
     - run: npm run build --if-present
     - name: install packages 
       run: |
-          npm install 
-          express
-      #put other package instalations here
+          npm install express
+          
+      #put other package instalations here ^
       
     - name: Add & Commit
       run: |
