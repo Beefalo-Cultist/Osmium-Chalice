@@ -52,3 +52,4 @@ jobs:
           git add .
           git commit -m "generated"
           git push
+      if: GITHUB_REF != GITHUB_PATH
