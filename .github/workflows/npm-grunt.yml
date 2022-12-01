@@ -1,0 +1,47 @@
+name: NodeJS with Grunt
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build
+      run: |
+        npm install
+        grunt
+        express
+    - name: Express AutoDocs
+  # You may pin to the exact commit or the version.
+  # uses: prafulla-codes/express-autodocs@786839cb19ecbe710bd8505405a4620e3febf60e
+      uses: prafulla-codes/express-autodocs@v0.0.2
+      with:
+    # The title of the docs created
+        docsTitle: Documentation # default is Documentation
+    # The path of the file where backend server runs.
+        server-filepath: server.js # default is server.js
+    # Name of the app variable
+        appName: app # default is app
+    # Name of the router variable
+        routerName: router # default is router
+    # Static assets are generated in this format
+        outputFormat: standard # default is standard
+    # Static assets are deployed in this branch
+        outputBranch: express-autodocs # default is express-autodocs   
