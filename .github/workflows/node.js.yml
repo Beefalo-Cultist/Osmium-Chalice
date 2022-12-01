@@ -46,7 +46,6 @@ jobs:
         npm install
       
     - name: Add & Commit
-      if: ${{github.event_name != 'pull_request'}}
       run: |
           touch tempoveride.ovr
           git config user.name github-actions
