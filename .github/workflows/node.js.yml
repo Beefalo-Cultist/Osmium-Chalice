@@ -21,6 +21,9 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    - name: No broken dependency
+      uses: hata6502/no-broken-dependency-action@v5.0.1
+
     - name: npm setup
       uses: ng-easy/npm-setup@v1.7.2
       
