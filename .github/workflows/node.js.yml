@@ -54,3 +54,4 @@ jobs:
       with:
       # Arguments for the git add command
         add: '/home/runner/work/Osmium-Chalice/Osmium-Chalice/'
+        push: "origin Beefalo-Cultist-nodejs-test-2"
