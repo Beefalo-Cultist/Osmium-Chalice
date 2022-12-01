@@ -26,6 +26,7 @@ jobs:
       with:
         repository: Beefalo-Cultist/Osmium-Chalice
         ref: Beefalo-Cultist-nodejs-test-2
+        path: './nodejs/'
    
     - name: Force npm package install
       run: npm init -y
@@ -54,9 +55,9 @@ jobs:
       
       
     - name: Add & Commit
-  # You may pin to the exact commit or the version.
-  # uses: EndBug/add-and-commit@61a88be553afe4206585b31aa72387c64295d08b
       uses: EndBug/add-and-commit@v9.1.1
       with:
-      # Arguments for the git add command
-        push: "origin Beefalo-Cultist-nodejs-test-2 --force"
+        push: "origin Beefalo-Cultist-nodejs-test-2 --force" 
+        add: '. --force'
+        cwd: './nodejs/'
+        message: 'Node.JS install'
