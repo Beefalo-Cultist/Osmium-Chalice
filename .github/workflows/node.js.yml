@@ -46,10 +46,11 @@ jobs:
       #put other package instalations here ^
       
     - name: Add & Commit
+      if: ${{github.ref != github.path}}
       run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
           git commit -m "generated"
           git push
-      if: ${{github.ref != github.path}}
+      
