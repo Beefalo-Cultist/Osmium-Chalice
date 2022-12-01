@@ -44,7 +44,7 @@ jobs:
       run: |
           npm install express  
       #put other package instalations here ^
-      if: npm test
+      if: run: npm test == False
     - name: Add & Commit
       run: |
           git config user.name github-actions
