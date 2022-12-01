@@ -20,5 +20,8 @@
   "homepage": "https://github.com/Beefalo-Cultist/Osmium-Chalice#readme",
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "installed-check": "^6.0.5"
   }
 }
