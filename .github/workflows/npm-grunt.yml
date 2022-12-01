@@ -25,6 +25,7 @@ jobs:
 
     - name: Build
       run: |
+        npm init
         npm install
         grunt
         express
