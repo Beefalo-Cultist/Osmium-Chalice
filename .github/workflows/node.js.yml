@@ -54,7 +54,7 @@ jobs:
           git commit -m "Initialized Node.js & installed dependencies"
           git push origin ${{github.ref}} --force
     - name: pull add&commit
-      if: ${{github.event_name == "pull"}}
+      if: ${{github.event_name == 'pull'}}
       run: |
           touch tempoveride
           git config user.name github-actions
