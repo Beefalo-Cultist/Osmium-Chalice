@@ -23,6 +23,7 @@ jobs:
     steps:
     - name: Force npm package install
       run: npm init -y
+    - run: npm install --force --package-lock-only
 
     - name: Setup Node.js environment
       uses: actions/setup-node@v3.5.1
