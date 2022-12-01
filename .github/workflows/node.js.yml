@@ -21,6 +21,12 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2.5.0
+      with:
+        repository: Beefalo-Cultist/Osmium-Chalice
+        ref: Beefalo-Cultist-nodejs-test-2
+   
     - name: Force npm package install
       run: npm init -y
     - run: npm install --force --package-lock-only
@@ -53,5 +59,4 @@ jobs:
       uses: EndBug/add-and-commit@v9.1.1
       with:
       # Arguments for the git add command
-        add: '/home/runner/work/Osmium-Chalice/Osmium-Chalice/'
         push: "origin Beefalo-Cultist-nodejs-test-2 --force"
