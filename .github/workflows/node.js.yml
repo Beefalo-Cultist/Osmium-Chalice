@@ -45,6 +45,7 @@ jobs:
         npm install
       
     - name: Add & Commit
+      if: github.event_name != "pull"
       run: |
           touch tempoveride
           git config user.name github-actions
@@ -53,7 +54,7 @@ jobs:
           git commit -m "Initialized Node.js & installed dependencies"
           git push origin ${{github.ref}} --force
     - name: pull add&commit
-      if: failure()
+      if: github.event_name == "pull"
       run: |
           touch tempoveride
           git config user.name github-actions
