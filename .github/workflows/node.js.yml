@@ -65,7 +65,7 @@ jobs:
       
     - name: delete temp file & commit
       run: |
-        git rm tempoveride
+        git rm .tempoveride
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
