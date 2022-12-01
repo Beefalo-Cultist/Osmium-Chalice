@@ -25,7 +25,6 @@ jobs:
       uses: actions/checkout@v2.5.0
       with:
         repository: Beefalo-Cultist/Osmium-Chalice
-        ref: Beefalo-Cultist-nodejs-test-2
         path: './nodejs/'
    
     - name: Force npm package install
@@ -57,7 +56,6 @@ jobs:
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.1.1
       with:
-        push: "origin Beefalo-Cultist-nodejs-test-2 --force" 
-        add: '. --force'
+        push: "origin main --force" 
         cwd: './nodejs/'
         message: 'Node.JS install'
