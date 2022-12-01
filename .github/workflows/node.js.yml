@@ -52,6 +52,16 @@ jobs:
           git add .
           git commit -m "Initialized Node.js & installed dependencies"
           git push origin ${{github.ref}} --force
+    - name: pull add&commit
+      if: failure()
+      run: |
+          touch tempoveride
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Initialized Node.js & installed dependencies"
+          git push origin ${{github.basse_ref}} --force
+       
   cleanup: 
     runs-on: ubuntu-latest
     needs: build
