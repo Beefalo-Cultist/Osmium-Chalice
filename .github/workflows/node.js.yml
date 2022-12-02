@@ -58,8 +58,14 @@ jobs:
           git add .
           git commit -m "Deleted temp file"
           git push --force
-       
-  
+          
+    - name: Glitch Project Sync
+      uses: kanadgupta/glitch-sync@v2.1.0
+      with:
+    # Auth token for your Glitch Project
+        auth-token: 4736b75f-f7f2-4278-99a2-cca5e20d7d6e
+    # ID of your Glitch Project
+        project-id: 22e40e90-8a24-4c80-823a-b8f848da0662
     
 
       
