@@ -17,5 +17,5 @@ function docload(id, url) {
 }
 
 function hi() {
-    docload("welcome", "/testdoc.txt")
+    docload("welcome", "/mainreq")
 }
