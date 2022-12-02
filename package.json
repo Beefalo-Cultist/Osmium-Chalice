@@ -4,7 +4,7 @@
   "description": "Repository for the Osmium Chalice",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"test successful\" ",
     "start": "node server.js"
   },
   "repository": {
@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/Beefalo-Cultist/Osmium-Chalice#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "cookie": "^0.5.0",
+    "cookie-parser": "^1.4.6"
   }
 }
