@@ -9,6 +9,7 @@ function setJsHeaders(res, path) {
 }
 
 app.get('/hello', function (req, res) {
+    res.type('html')
     res.send('<p>Message Received</p>');
     res.end();
 });
