@@ -24,6 +24,12 @@ app.get('/hello', function (req, res) {
     res.end();
 });
 
+app.all('/jopy', (req, res) => {
+    console.log("Jo's ip is " + req.ip)
+    res.type('text')
+    res.status(451).send("You try ddos me? reeeee")
+})
+
 app.all('/coffee', (req, res) => {
     console.warn("It is not advisable to attempt to brew coffee with a teapot")
     res.status(418).send(tea)
