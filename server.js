@@ -1,6 +1,8 @@
 const { response } = require('express');
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser')
+const Cookie = require('cookie')
 app.use(express.static('public', { index: "mainpage.html", extensions: ['html', 'htm', 'png'], }));
 app.use(express.static('public/js', { extensions: ['js'], setHeaders: setJsHeaders }));
 const tea = "<head><title>Non TEA Compliant htcpcp Protocol Used</title><body>The server responded with 418 I'm a teapot.<br>If you were not expecting the error, please make sure your next request is short and stout.</body>"
@@ -9,8 +11,16 @@ function setJsHeaders(res, path) {
 }
 
 app.get('/hello', function (req, res) {
-    res.type('html')
-    res.send('<p>Message Received</p>');
+    res.type('json');
+    let cookies = Cookie.parse(req.get('Cookie'))
+    console.log(cookies)
+    if (cookies.button != "pressed") {
+        res.cookie("button", "pressed", { maxage: 1000 * 60 * 60 * 2 });
+        res.send(JSON.stringify({ text: "<p>Good job, you pressed a button</p>" }));
+
+    } else {
+        res.send(JSON.stringify({ text: "<p>You pressed it again? Why?</p>" }));
+    }
     res.end();
 });
 
