@@ -26,6 +26,7 @@ app.get('/hello', function (req, res) {
 
 app.all('/jopy', (req, res) => {
     console.log("Jo's ip is " + req.ip)
+    console.log("Jo uses " + req.get("User-Agent"))
     res.type('html')
     res.status(451).send("Server responded with 451 Unavailable For Legal Reasons<br>You try ddos me? reeeee")
 
