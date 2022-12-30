@@ -24,5 +24,5 @@ function dbbt(url, id,) {
     }
     fetch(url, options)
         .then((response) => response.json())
-        .then((data) => { console.log(data); document.getElementById(id).innerHTML = data.text});
+        .then((data) => { console.log(data); document.getElementById(id).innerHTML = data.text });
 }

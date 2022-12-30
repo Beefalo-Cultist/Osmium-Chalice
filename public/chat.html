@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <title>(WORK IN PROGRESS) The Osmium Chalice</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/mainStatic.js"></script>
+        <script src="js/messageHandler.js"></script>
+        <link rel="stylesheet" href="css/mainstyle.css">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    </head>
+
+    <body>
+        <div id="main-wrapper">
+            <div id='chat-disclaimer'>
+                <h2>WIP Chat Area</h2>
+                <p>This is the work in progress chat area. It is currently under heavy development. At this point you
+                    are only able to send messages to everyone connected to this website.</p><br>
+                <div id='chat-wrapper'>
+                    <h4>Connected to site-wide chat room!</h5>
+                        <label for='username'>What is your name?</label><br>
+                        <input type="text" id='username' name='username' placeholder='Type your username here!'>
+                        <div id='message-history' class='message-history'>
+                            <p>This is the start of our site's history!</p>
+                        </div><br>
+                        <div id='message-send' class='message-send'>
+                            <input type='text' id='messageout' name='messageout' placeholder='Type your message here!'
+                                autocomplete='off'>
+                            <button id='sendmessage' onclick='sendmessage()'>Send</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
