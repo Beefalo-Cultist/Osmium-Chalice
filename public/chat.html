@@ -23,7 +23,7 @@
                         <div id='message-history' class='message-history'>
                             <p>This is the start of our site's history!</p>
                         </div><br>
-                        <div id='message-send' class='message-send'>
+                        <div id='message-send' class='message-send' onkeydown='if(event.key=="Enter"){sendmessage()}'>
                             <input type='text' id='messageout' name='messageout' placeholder='Type your message here!'
                                 autocomplete='off'>
                             <button id='sendmessage' onclick='sendmessage()'>Send</button>
