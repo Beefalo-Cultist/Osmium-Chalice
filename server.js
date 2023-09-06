@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const Cookie = require('cookie')
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const html_specialchars = require('html-specialchars');
 const httpServer = createServer(app);
 const io = new Server(httpServer, {});
 const history = {};
@@ -61,9 +62,9 @@ io.on("connection", (socket) => {
     socket.emit("restore", history["all"]);
     socket.on('messageout', (mparams) => {
         const room = mparams.room;
-        let messageOut = mparams.username + ": " + mparams.message + "<br>";
-        socket.emit("messagein", messageOut);
-        socket.broadcast.emit("messagein", messageOut);
+        let messageOut = mparams.username + ": " + mparams.message;
+        messageOut = html_specialchars.escape(messageOut) + "<br>";
+        io.emit("messagein", messageOut);
         if (history[room]) {
             history[room].push(messageOut)
         } else {

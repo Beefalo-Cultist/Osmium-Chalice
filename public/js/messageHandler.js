@@ -10,15 +10,17 @@ function sendmessage() {
         room: 'all'
     }
     socket.emit('messageout', mparams)
-    messagetext = ""
+    document.getElementById("messageout").value = ""
 }
 function restoreChatHistory(room) {
-    room.forEach((value) => {
-        let message = document.createElement('p');
-        let messageWrapper = document.getElementById("message-history");
-        message.innerHTML = value;
-        messageWrapper.appendChild(message);
+    if (room.value) {
+        room.forEach((value) => {
+            let message = document.createElement('p');
+            let messageWrapper = document.getElementById("message-history");
+            message.innerHTML = value;
+            messageWrapper.appendChild(message);
     })
+}
 }
 socket.on('restore', (arg) => { restoreChatHistory(arg) })
 
