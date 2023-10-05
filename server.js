@@ -8,6 +8,7 @@ const { Server } = require("socket.io");
 const html_specialchars = require('html-specialchars');
 const httpServer = createServer(app);
 const io = new Server(httpServer, {});
+const port = 80
 const history = {};
 
 const tea = "<head><title>Non TEA Compliant htcpcp Protocol Used</title><body>The server responded with 418 I'm a teapot.<br>If you were not expecting the error, please make sure your next request is short and stout.</body>";
@@ -17,6 +18,32 @@ app.use(express.static('public/js', { extensions: ['js'], setHeaders: setJsHeade
 
 function setJsHeaders(res, path) {
     res.type('js');
+}
+
+function getDate(type) {
+    let d = new Date();
+    switch (type) {
+        case "month":
+            return d.getMonth();
+        case "year":
+            return d.getfullYear();
+        case "day":
+            return d.getDate();
+        case "weekday":
+            return d.getday();
+        case "hour":
+            return d.getHours();
+        case "minute": 
+            return d.getMinutes();
+        case "seconds":
+            return d.getSeconds();
+        case "miliseconds":
+            return d.getMilliseconds();
+        case "unixtime":
+            return d.getTime();
+        default:
+            return d;
+    }
 }
 
 
@@ -75,5 +102,5 @@ io.on("connection", (socket) => {
 
 
 
-httpServer.listen(3000, () => { console.log('connected!') });
+httpServer.listen(port, () => { console.log(`Server connected on port ${port} at ${getDate()}!`) });
 
