@@ -46,29 +46,6 @@ function getDate(type) {
     }
 }
 
-
-app.get('/hello', function (req, res) {
-    res.type('json');
-    let cookies = Cookie.parse(req.get('Cookie'));
-    console.log(cookies);
-    if (cookies.button != "pressed") {
-        res.cookie("button", "pressed", { maxage: 1000 * 60 * 60 * 2 });
-        res.send(JSON.stringify({ text: "<p>Good job, you pressed a button</p>" }));
-
-    } else {
-        res.send(JSON.stringify({ text: "<p>You pressed it again? Why?</p>" }));
-    }
-    res.end();
-});
-
-app.all('/jopy', (req, res) => {
-    console.log("Jo's ip is " + req.ip);
-    console.log("Jo uses " + req.get("User-Agent"));
-    res.type('html');
-    res.status(451).send("Server responded with 451 Unavailable For Legal Reasons<br>You try ddos me? reeeee");
-
-})
-
 app.all('/coffee', (req, res) => {
     console.warn("It is not advisable to attempt to brew coffee with a teapot");
     res.status(418).send(tea);
