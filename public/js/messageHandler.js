@@ -1,19 +1,25 @@
 const socket = io();
 
+function getRoom() {
+    let rawroom = document.getElementById("room-select").value; 
+    if (!rawroom) {rawroom = "common"} 
+    return rawroom;
+}
+
 function sendmessage() {
-    var messagetext = document.getElementById("messageout").value;
-    var username = document.getElementById("username").value;
+    let messagetext = document.getElementById("messageout").value;
+    let username = document.getElementById("username").value;
     const mparams = {
         message: messagetext,
         username: username,
         date: new Date(),
-        room: 'all'
+        room: getRoom()
     }
     socket.emit('messageout', mparams)
     document.getElementById("messageout").value = ""
 }
 function restoreChatHistory(room) {
-    if (room.value) {
+    if (room) {
         room.forEach((value) => {
             let message = document.createElement('p');
             let messageWrapper = document.getElementById("message-history");
@@ -31,3 +37,11 @@ socket.on("messagein", (arg) => {
     messageWrapper.appendChild(newMessage);
     messageWrapper.scrollTop = messageWrapper.scrollHeight;
 })
+
+function joinRoom() {        //defines a self-invoking anonymous function to restore chat history when page loads or connected to a new room 
+    let connectedRoom;
+    document.getElementById("message-history").innerHTML = "<p>This is the start of our room's history!</p>"
+    socket.emit("join",{room : getRoom()});
+    connectedRoom = (function() {if (getRoom() == 'common'){return "site-wide chat room";} else {return getRoom();}}())
+    document.getElementById("room-indicator").innerHTML = `Connected to ${connectedRoom}!`
+}

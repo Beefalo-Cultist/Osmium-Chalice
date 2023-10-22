@@ -10,7 +10,7 @@
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
     </head>
 
-    <body>
+    <body onload = "joinRoom()">
         <div id="main-wrapper">
             <div id='chat-disclaimer'>
                 <h2>WIP Chat Area</h2>
@@ -19,13 +19,13 @@
                 <div id='chat-wrapper'>
                     <div id="room select">
                         <label for="room-select">Enter a room name to connect to it, or leave blank to chat with the whole site</label><br>
-                        <input type="text" id="room-select" name="room" placeholder="Enter room name here!">
+                        <input type="text" id="room-select" name="room" placeholder="Enter room name here!"> <button type="button" id="connect" onclick="joinRoom()">Connect!</button>
                     </div>
-                    <h4>Connected to site-wide chat room!</h5>
+                    <h4 id="room-indicator">Connected to site-wide chat room!</h5>
                         <label for='username'>What is your name?</label><br>
                         <input type="text" id='username' name='username' placeholder='Type your username here!'>
                         <div id='message-history' class='message-history'>
-                            <p>This is the start of our site's history!</p>
+                            <p>This is the start of our room's history!</p>
                         </div><br>
                         <div id='message-send' class='message-send' onkeydown='if(event.key=="Enter"){sendmessage()}'>
                             <input type='text' id='messageout' name='messageout' placeholder='Type your message here!'

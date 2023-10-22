@@ -86,21 +86,26 @@ io.on("connection", (socket) => {
             console.log("There is only one user connected.")
         } else { console.log("There are now " + io.engine.clientsCount + " users connected.") }
     });
-    socket.emit("restore", history["all"]);
+    socket.on("join", (params) => {
+        let room = params.room.trim();
+        socket.rooms.forEach((value) => {socket.leave(value);});
+        socket.join(room);
+        socket.emit("restore", history[room]);
+    })
     socket.on('messageout', (mparams) => {
-        const room = mparams.room;
+        let room = mparams.room.trim(); 
         let messageOut = mparams.username + ": " + mparams.message;
         messageOut = html_specialchars.escape(messageOut) + "<br>";
-        io.emit("messagein", messageOut);
+        io.to(room).emit("messagein", messageOut);
         if (history[room]) {
-            history[room].push(messageOut)
+            history[room].push(messageOut);
         } else {
-            history[room] = [messageOut]
+            history[room] = [messageOut];
         }
     })
 });
 
 
 
-httpServer.listen(port, () => { console.log(`Server connected on port ${port} at ${getDate()}!`) });
+httpServer.listen(port, () => { console.log(`Server connected on port ${port} at ${getDate()}.`) });
 
