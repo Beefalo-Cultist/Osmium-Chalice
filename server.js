@@ -5,8 +5,10 @@ const cookieParser = require('cookie-parser')
 const Cookie = require('cookie')
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const html_specialchars = require('html-specialchars');
 const httpServer = createServer(app);
 const io = new Server(httpServer, {});
+const port = 80
 const history = {};
 
 const tea = "<head><title>Non TEA Compliant htcpcp Protocol Used</title><body>The server responded with 418 I'm a teapot.<br>If you were not expecting the error, please make sure your next request is short and stout.</body>";
@@ -16,6 +18,32 @@ app.use(express.static('public/js', { extensions: ['js'], setHeaders: setJsHeade
 
 function setJsHeaders(res, path) {
     res.type('js');
+}
+
+function getDate(type) {
+    let d = new Date();
+    switch (type) {
+        case "month":
+            return d.getMonth();
+        case "year":
+            return d.getfullYear();
+        case "day":
+            return d.getDate();
+        case "weekday":
+            return d.getday();
+        case "hour":
+            return d.getHours();
+        case "minute": 
+            return d.getMinutes();
+        case "seconds":
+            return d.getSeconds();
+        case "miliseconds":
+            return d.getMilliseconds();
+        case "unixtime":
+            return d.getTime();
+        default:
+            return d;
+    }
 }
 
 
@@ -58,21 +86,26 @@ io.on("connection", (socket) => {
             console.log("There is only one user connected.")
         } else { console.log("There are now " + io.engine.clientsCount + " users connected.") }
     });
-    socket.emit("restore", history["all"]);
+    socket.on("join", (params) => {
+        let room = params.room.trim();
+        socket.rooms.forEach((value) => {socket.leave(value);});
+        socket.join(room);
+        socket.emit("restore", history[room]);
+    })
     socket.on('messageout', (mparams) => {
-        const room = mparams.room;
-        let messageOut = mparams.username + ": " + mparams.message + "<br>";
-        socket.emit("messagein", messageOut);
-        socket.broadcast.emit("messagein", messageOut);
+        let room = mparams.room.trim(); 
+        let messageOut = mparams.username + ": " + mparams.message;
+        messageOut = html_specialchars.escape(messageOut) + "<br>";
+        io.to(room).emit("messagein", messageOut);
         if (history[room]) {
-            history[room].push(messageOut)
+            history[room].push(messageOut);
         } else {
-            history[room] = [messageOut]
+            history[room] = [messageOut];
         }
     })
 });
 
 
 
-httpServer.listen(3000, () => { console.log('connected!') });
+httpServer.listen(port, () => { console.log(`Server connected on port ${port} at ${getDate()}.`) });
 
