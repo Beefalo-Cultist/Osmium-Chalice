@@ -20,3 +20,11 @@ function getCookie(cname) {
     }
     return "";
 }
+
+function restoreLastRoom() {
+    let lr = getCookie("lastRoom");
+    if (lr && lr != "common") {
+        document.getElementById("room-select").value = lr;
+    }
+    joinRoom()
+}

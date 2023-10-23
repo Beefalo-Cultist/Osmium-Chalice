@@ -44,4 +44,5 @@ function joinRoom() {        //defines a self-invoking anonymous function to res
     socket.emit("join",{room : getRoom()});
     connectedRoom = (function() {if (getRoom() == 'common'){return "site-wide chat room";} else {return getRoom();}}())
     document.getElementById("room-indicator").innerHTML = `Connected to ${connectedRoom}!`
+    setCookie('lastRoom', getRoom(), 14);
 }
