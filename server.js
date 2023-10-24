@@ -6,10 +6,15 @@ const Cookie = require('cookie')
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const html_specialchars = require('html-specialchars');
+const encryptly = require('encryptly');
+const editJsonFile = require("edit-json-file");
+require('dotenv').config();
+
 const httpServer = createServer(app);
 const io = new Server(httpServer, {});
+
 const port = 80
-const history = {};
+const history = editJsonFile(`${__dirname}/data/history.json`,{autosave:true});
 
 const tea = "<head><title>Non TEA Compliant htcpcp Protocol Used</title><body>The server responded with 418 I'm a teapot.<br>If you were not expecting the error, please make sure your next request is short and stout.</body>";
 
@@ -74,11 +79,7 @@ io.on("connection", (socket) => {
         let messageOut = mparams.username + ": " + mparams.message;
         messageOut = html_specialchars.escape(messageOut) + "<br>";
         io.to(room).emit("messagein", messageOut);
-        if (history[room]) {
-            history[room].push(messageOut);
-        } else {
-            history[room] = [messageOut];
-        }
+        history.append(room, messageOut);
     })
 });
 
