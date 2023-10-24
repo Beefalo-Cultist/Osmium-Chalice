@@ -38,11 +38,11 @@ socket.on("messagein", (arg) => {
     messageWrapper.scrollTop = messageWrapper.scrollHeight;
 })
 
-function joinRoom() {        //defines a self-invoking anonymous function to restore chat history when page loads or connected to a new room 
+function joinRoom() { 
     let connectedRoom;
     document.getElementById("message-history").innerHTML = "<p>This is the start of our room's history!</p>"
     socket.emit("join",{room : getRoom()});
     connectedRoom = (function() {if (getRoom() == 'common'){return "site-wide chat room";} else {return getRoom();}}())
-    document.getElementById("room-indicator").innerHTML = `Connected to ${connectedRoom}!`
+    document.getElementById("room-indicator").innerHTML = `Connected to ${connectedRoom}!`;
     setCookie('lastRoom', getRoom(), 14);
 }
