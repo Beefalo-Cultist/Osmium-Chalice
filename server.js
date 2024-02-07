@@ -31,11 +31,11 @@ function getDate(type) {
         case "month":
             return d.getMonth();
         case "year":
-            return d.getfullYear();
+            return d.getFullYear();
         case "day":
             return d.getDate();
         case "weekday":
-            return d.getday();
+            return d.getDay();
         case "hour":
             return d.getHours();
         case "minute": 
