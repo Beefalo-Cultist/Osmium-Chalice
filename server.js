@@ -16,7 +16,7 @@ const io = new Server(httpServer, {});
 const port = 80
 const history = editJsonFile(`${__dirname}/data/history.json`,{autosave:true});
 
-const tea = "<head><title>Non TEA Compliant htcpcp Protocol Used</title><body>The server responded with 418 I'm a teapot.<br>If you were not expecting the error, please make sure your next request is short and stout.</body>";
+const tea = "<head><title>Non TEA Compliant htcpcp Protocol Used</title></head><body>The server responded with 418 I'm a teapot.<br>If you were not expecting the error, please make sure your next request is short and stout.</body>";
 
 app.use(express.static('public', { index: "welcome.html", extensions: ['html', 'htm', 'png'], }));
 app.use(express.static('public/js', { extensions: ['js'], setHeaders: setJsHeaders }));
