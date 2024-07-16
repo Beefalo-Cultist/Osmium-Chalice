@@ -147,7 +147,7 @@ app.get('/memberchat', cookieParser(cookiesecret), (req, res, next) => {
     if (authenticate(username, {token:logintoken, reqip:req.ip}, "token")) {
         res.status(200);
         next();
-    } else {res.redirect(401, "/login"); return}
+    } else {res.redirect(401, "/chat"); return}
 })
 
 app.use(express.static('public', { extensions: ['html', 'htm', 'png'] }));
