@@ -19,7 +19,7 @@ const encryptKey = process.env.encryptionkey;
 const cookiesecret = process.env.cookiesecret
 const history = editJsonFile(`${__dirname}/data/history.json`, {autosave:true});
 const accounts = editJsonFile(`${__dirname}/data/accounts.json`, {autosave:true});
-const tea = "<head><title>Non TEA Compliant htcpcp Protocol Used</title><body>The server responded with code <code>418 I'm a teapot</code>.<br>If you were not expecting the error, please make sure your next request is short and stout.</body>";
+const tea = "<head><title>Non TEA Compliant htcpcp Protocol Used</title><body>The server responded with code <code>418 I'm a teapot</code>.<br>If you were not expecting the error, please make sure your next request is short and stout.</body>"
 
 function setJsHeaders(res, path) {
     res.type('js');
