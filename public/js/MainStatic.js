@@ -33,7 +33,7 @@ function gv(id="", input=false) {       //get value function
 
 function fillname() {
     const username = (new URLSearchParams(window.location.search)).get("uname");
-    document.getElementById("username").innerHTML = username;
+    if(username) {document.getElementById("username").innerHTML = username;}
     }
 
 function restoreLastRoom() {
