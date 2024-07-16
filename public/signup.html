@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Signup | The Osmium Chalice</title>
+        <script src="js/mainStatic.js"></script>
+        <script>
+            async function action() {
+                const formdata = new FormData
+                formdata.set("username", gv("username", true));
+                formdata.set("email", gv("email", true))
+                formdata.set("password", gv("password", true))
+                const body = new URLSearchParams(formdata).toString()
+                let headers = new Headers
+                headers.append("Content-Type", "application/x-www-form-urlencoded")
+                const response = await fetch("/newacc", {method:"POST", body: body, headers: headers});
+                const status = await response.status
+                if (response.ok) {document.location = `/welcome?uname=${await response.text()}`
+                } else if (status == 422) {alert("Please check to make sure that your username, email, and password are all correctly formatted")    
+                } else if (status == 409) {alert("An account with the same username or email already exits, please try again.")
+                } else {alert("Something went wrong in making your account, please double check your account information\nif this problem persists, it is probably a server error and our devs will fix it ASAP")}
+            }
+        </script>
+        <link rel="stylesheet" href="css/mainstyle.css">
+    </head>
+
+    <body>
+        <h1>Create a new account</h1>
+        <form action="javascript:action()" method="post" autocomplete="on" onkeydown='if(event.key=="Enter"){action()}'>
+            <lable for="username">Username: </lable><br>
+            <input type="text" id="username" name="username" placeholder="username" autocomplete="username" required minlength="4" maxlength="20" title="4-20 characters, only letters, numbers, and symbols" pattern="[A-Za-z0-9!@#$%^&*-_+=:;?,.~]{4,20}"><br>
+
+            <lable for="email">Email: </lable><br>
+            <input type="email" id="email" name="email" placeholder="email" autocomplete="email" required ><br>
+
+            <lable for="password">Password (between 8-32 characters, only letters, numbers, and symbols): </lable><br>
+            <input type="password" id="password" name="password" placeholder="password" autocomplete="new-password" required minlength="8" maxlength="32" title="8-32 characters, only letters, numbers, and symbols" pattern="[A-Za-z0-9!@#$%^&*-_+=:;?,.~]{8,32}"><br>
+
+            <lable for="password">Confirm password: </lable><br>
+            <input type="password" id="conpassword" name="conpassword" placeholder="confirm password" autocomplete="new-password" required oninput="var style; if (this.value == document.getElementById('password').value) {style = 'display: none;'} else {style = ''} document.getElementById('passnomatch').style = style;"><br>
+            <p id="passnomatch" class="passconfirm" style="display: none;">Passwords do not match!</p><br>
+
+            <input type="submit" value="Submit">
+
+        </form>
+    </body>
+</html>

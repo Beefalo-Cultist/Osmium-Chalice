@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login | The Osmium Chalice</title>
+        <script src="js/mainStatic.js"></script>
+        <script>
+            async function login() {
+                let pass = document.getElementById("password").value;
+                let user = document.getElementById("username").value;
+                const response = await fetch(`/authenticate`, {method:"post", headers: {"authorization":"Basic " + btoa(`${user}:${pass}`)}});
+                const userres = await response.text()
+                if(await response.ok) {
+                    document.location = ("/memberchat?uname="+userres)
+                } else {alert("Login failed, please double check your credentials.")}
+            }
+        </script>
+        <link rel="stylesheet" href="css/mainstyle.css">
+    </head>
+
+    <body>
+        <form autocomplete="on" onkeydown='if(event.key=="Enter"){login()}'>
+            <lable for="username">Username: </lable><br>
+            <input type="text" id="username" name="username" placeholder="username" autocomplete="username" required><br>
+
+            <lable for="password">Password: </lable><br>
+            <input type="password" id="password" name="password" placeholder="password" autocomplete="current-password" required minlength="8" maxlength="32"><br><br>
+
+            <button type="button" onclick="login()">Login</button>
+        </form>
+    </body>
+
+</html>
