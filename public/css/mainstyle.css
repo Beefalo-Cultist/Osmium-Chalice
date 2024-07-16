@@ -2,3 +2,7 @@ div.message-history {
     height: 50vh;
     overflow-y: scroll;
 }
+
+p.passconfirm {
+    color: red;
+}

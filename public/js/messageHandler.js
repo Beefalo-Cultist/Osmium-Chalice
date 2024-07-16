@@ -7,8 +7,8 @@ function getRoom() {
 }
 
 function sendmessage() {
-    let messagetext = document.getElementById("messageout").value;
-    let username = document.getElementById("username").value;
+    let messagetext = gv("messageout", true);
+    let username = gv("username", true);
     const mparams = {
         message: messagetext,
         username: username,
