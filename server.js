@@ -126,7 +126,7 @@ app.post('/newacc', cookieParser(cookiesecret), (req, res) => {
 app.all('/authenticate', cookieParser(cookiesecret), (req, res) => {
     if(!req.get("authorization")) {res.set("WWW-Authenticate", 'Basic realm="osmium chalice login"'); res.sendStatus(401); return}
     let auth = req.get("authorization");
-    try {var creds = atob(auth.split("Basic ")[1]);} catch {res.status(401).send("invalid autorization scheme"); return}
+    try {var creds = Buffer.from(auth.split("Basic ")[1], 'base64').toString('utf8')} catch {res.status(401).send("invalid authorization scheme"); return}
     let user = creds.split(":")[0];
     let password = creds.split(":")[1];
     if (accounts.get(user)&&authenticate(user, password, "password")) {
@@ -141,7 +141,8 @@ app.all('/authenticate', cookieParser(cookiesecret), (req, res) => {
 
 app.get('/memberchat', cookieParser(cookiesecret), (req, res, next) => {
     let logintoken = req.signedCookies.usertoken;
-    let username = encryptly.decrypt(req.signedCookies.user, encryptKey)
+    try {let username = encryptly.decrypt(req.signedCookies.user, encryptKey)}
+    catch {username = null}
     if(!username||!logintoken) {res.redirect(401, "/login"); return}
     if (authenticate(username, {token:logintoken, reqip:req.ip}, "token")) {
         res.status(200);
