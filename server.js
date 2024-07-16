@@ -159,7 +159,8 @@ io.on("connection", (socket) => {
         console.log("There is only one user connected.")
     } else { console.log("There are now " + count + " users connected.") }
     let handshakecookies = socket.handshake.headers.cookie;
-    socket.data.username = encryptly.decrypt(handshakecookies.split("user=s%3A")[1].split(".")[0], encryptKey)
+    try {socket.data.username = encryptly.decrypt(handshakecookies.split("user=s%3A")[1].split(".")[0], encryptKey)}
+    catch {socket.data.username = null}
     accounts.get("<GUEST>")
 
     socket.on("disconnect", (reason) => {
