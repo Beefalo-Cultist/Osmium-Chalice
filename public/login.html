@@ -18,6 +18,7 @@
     </head>
 
     <body>
+        <p>Enter account credentials below:</p>
         <form autocomplete="on" onkeydown='if(event.key=="Enter"){login()}'>
             <lable for="username">Username: </lable><br>
             <input type="text" id="username" name="username" placeholder="username" autocomplete="username" required><br>
@@ -25,7 +26,9 @@
             <lable for="password">Password: </lable><br>
             <input type="password" id="password" name="password" placeholder="password" autocomplete="current-password" required minlength="8" maxlength="32"><br><br>
 
-            <button type="button" onclick="login()">Login</button>
+            <button type="button" onclick="login()">Login</button><br>
+
+            <p><a href="/signup">Signup for an account</a>, or just go back to the <a href="/chat">guest chat room</a></p>
         </form>
     </body>
 
