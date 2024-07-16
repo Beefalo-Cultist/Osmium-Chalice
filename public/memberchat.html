@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>(WORK IN PROGRESS) The Osmium Chalice</title>
+        <title>Member Chat Area | The Osmium Chalice</title>
         <script src="/socket.io/socket.io.js"></script>
         <script src="js/mainStatic.js"></script>
         <script src="js/messageHandler.js"></script>
@@ -10,19 +10,17 @@
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
     </head>
 
-    <body onload="restoreLastRoom();">
+    <body onload="restoreLastRoom();fillname()">
         <div id="main-wrapper">
             <div id='chat-disclaimer'>
-                <h2>Welcome to the gust chat area!</h2>
-                <p>This is the work in progress chat area. Please bear in mind it is currently under heavy development. <a href="/signup">Create an account here</a>, or chat as a guest.</p><br>
+                <h2>Welcome <span id="username">dear user</span>!</h2>
+                <p>This is the work in progress chat area. Please bear in mind it is currently under heavy development. We are very grateful that you made an account with us!</p><br>
                 <div id='chat-wrapper'>
                     <div id="room select">
                         <label for="room-select">Enter a room name to connect to it, or leave blank to chat with the whole site</label><br>
                         <input type="text" id="room-select" name="room" placeholder="Enter room name here!"> <button type="button" id="connect" onclick="joinRoom()">Connect!</button>
                     </div>
                     <h4 id="room-indicator">Connected to site-wide chat room!</h5>
-                        <label for='username'>What is your name?</label><br>
-                        <input type="text" id='username' name='username' placeholder='Type your username here!'>
                         <div id='message-history' class='message-history'>
                             <p>This is the start of our room's history!</p>
                         </div><br>
