@@ -145,7 +145,7 @@ io.on("connection", (socket) => {
     catch {socket.data.username = null}
     try {socket.data.usertoken = encryptly.decrypt(handshakecookies.split("usertoken=s%3A")[1].split(".")[0], encryptKey)}
     catch {socket.data.usertoken = null}
-    if (!authenticate(socket.data.username, socket.data.usertoken, "token")) {socket.disconnect}
+    if (!authenticate(socket.data.username, socket.data.usertoken, "token")) {socket.disconnect();}
 
     socket.on("disconnect", (reason) => {
         console.log("A user disconnected.")
