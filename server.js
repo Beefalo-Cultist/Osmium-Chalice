@@ -36,7 +36,7 @@ class useraccount {
 
 function authenticate(user="", key="", method="password") {
     const account = accounts.get(user);
-    if(!(Object.keys(account).join()==Object.keys(new useraccount('','','')).join())) {return new Error("Invalid User")}
+    if(!account||!(Object.keys(account).join()==Object.keys(new useraccount('','','')).join())) {return new Error("Invalid User")}
     if (method=="password"&&encryptly.decrypt(account.password, encryptKey)==key) {
         return true;
     } else if (method=="token"&&account.usertoken==key) {
