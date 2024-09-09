@@ -25,42 +25,24 @@ function setJsHeaders(res, path) {
     res.type('js');
 }
 
-function updateip(ip,user) {
-    let d = new Date()
-    d.setTime((getDate('unixtime')+2629746000))
-    let safeip = {
-        verifiedIp: ip,
-        expirationDate: d
-    }
-    accounts.append(`${user}.safeips`, safeip)
-    return true
-}
-
 class useraccount {
     constructor(body, safepass, token) {
         this.username = body.username,
         this.email = body.email,
         this.password = safepass,
         this.usertoken = token
-        this.safeips = []
     }
 }
 
-function authenticate(user="", key, method="password") {
-    if(!user) {return new Error("Empty Username")}
-    const useraccount = accounts.get(user);
-    if (method=="password"&&typeof(key)=='string') {
-        let decryptpass = encryptly.decrypt(useraccount.password, encryptKey);
-        if (decryptpass == key) {
-            return true;
-        } 
-    } else if (method=="token"&&typeof(key)=="object") {
-        let safeips = useraccount.safeips.map((ip) => {return ip["verifiedIp"]})
-        if (useraccount.usertoken==key.token&&safeips.includes(key.reqip)) {
-            return true;
-        }
-    } else {
-        return false;
+function authenticate(user="", key="", method="password") {
+    const account = accounts.get(user);
+    if(!(Object.keys(account).join()==Object.keys(new useraccount('','','')).join())) {return new Error("Invalid User")}
+    if (method=="password"&&encryptly.decrypt(account.password, encryptKey)==key) {
+        return true;
+    } else if (method=="token"&&account.usertoken==key) {
+        return true;
+    } else if (method!="password"&&method!="token") {
+        return new Error("Invalid Method");
     }
     return new Error("Invalid Authorization");
 }
@@ -93,9 +75,9 @@ function getDate(type) {
 
 app.use([express.urlencoded(), cookieParser(cookiesecret)]);
 
-app.all("/", cookieParser(cookiesecret), (req, res) => {
+app.get("/", cookieParser(cookiesecret), (req, res) => {
     if (req.signedCookies.usertoken||req.signedCookies.user) {
-        if (authenticate(req.signedCookies.user, {token:req.signedCookies.usertoken, reqip:req.ip}, "token")) {res.redirect("/chat");} 
+        if (authenticate(encryptly.decrypt(req.signedCookies.user, encryptKey), req.signedCookies.usertoken, "token")) {res.redirect("/memberchat");} 
         else {res.redirect("/login");}
     } else {res.redirect("/chat")}
 })
@@ -118,9 +100,8 @@ app.post('/newacc', cookieParser(cookiesecret), (req, res) => {
     if(accstring.includes(`"${username}"`) || accstring.includes(`"${email}"`)){res.status(409).send("bad request; account with same email or username already exists"); return}
     accounts.set(username, new useraccount(req.body, password, base62(25)));
     accounts.save();
-    updateip(req.ip, username);
     res.cookie("usertoken", accounts.get(username).usertoken, {signed:true,httpOnly:true,maxAge:2629746000});
-    res.cookie("user", accounts.get(username).username, {signed:true,httpOnly:true,maxAge:2629746000});
+    res.cookie("user", encryptly.encrypt(accounts.get(username).username, encryptKey), {signed:true,httpOnly:true,maxAge:2629746000});
     res.status(201).send(username);
 });
 
@@ -131,13 +112,12 @@ app.all('/authenticate', cookieParser(cookiesecret), (req, res) => {
     let user = creds.split(":")[0];
     let password = creds.split(":")[1];
     if (accounts.get(user)&&authenticate(user, password)) {
-        updateip(req.ip, accounts.get(user).username);
         res.cookie("usertoken", accounts.get(user).usertoken, {signed:true,httpOnly:true,maxAge:2629746000});
         res.cookie("user", encryptly.encrypt(accounts.get(user).username, encryptKey), {signed:true,httpOnly:true,maxAge:2629746000});
         res.status(200).send(user);
         return;
     }
-    res.status(401).send("invalid credentials");
+    res.status(401).send("Invalid credentials");
 })
 
 app.get('/memberchat', cookieParser(cookiesecret), (req, res, next) => {
@@ -145,7 +125,7 @@ app.get('/memberchat', cookieParser(cookiesecret), (req, res, next) => {
     try {var username = encryptly.decrypt(req.signedCookies.user, encryptKey)}
     catch {var username = null}
     if(!(username&&logintoken)) {res.redirect(401, "/chat"); return}
-    if (authenticate(username, {token:logintoken, reqip:req.ip}, "token")) {
+    if (authenticate(username, logintoken, "token")) {
         res.status(200).location("/memberchat?uname="+username);
         next();
     } else {res.redirect(401, "/login"); return}
@@ -163,6 +143,9 @@ io.on("connection", (socket) => {
     let handshakecookies = socket.handshake.headers.cookie;
     try {socket.data.username = encryptly.decrypt(handshakecookies.split("user=s%3A")[1].split(".")[0], encryptKey)}
     catch {socket.data.username = null}
+    try {socket.data.usertoken = encryptly.decrypt(handshakecookies.split("usertoken=s%3A")[1].split(".")[0], encryptKey)}
+    catch {socket.data.usertoken = null}
+    if (!authenticate(socket.data.username, socket.data.usertoken, "token")) {socket.disconnect}
 
     socket.on("disconnect", (reason) => {
         console.log("A user disconnected.")
